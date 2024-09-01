@@ -32,12 +32,18 @@ def on_button_released(button):
     msg = button.name + "r"+":0"
     client.send(msg.encode("utf-8")[:1024])
 
-def on_trigger_pressed(axis):
+def on_trigger_r_pressed(axis):
     #if axis.value >= axis_threshold:
     print('Axis {0} moved to {1}'.format(axis.name, axis.value))
     msg = axis.name + ":" +str(axis.value)
     client.send(msg.encode("utf-8")[:1024])
-    
+
+def on_trigger_l_pressed(axis):
+    #if axis.value >= axis_threshold:
+    print('Axis {0} moved to {1}'.format(axis.name, axis.value))
+    msg = axis.name + ":" +str(-1*axis.value)
+    client.send(msg.encode("utf-8")[:1024])
+
 def on_axis_moved(axis):
     print('Axis {0} moved to {1} {2}'.format(axis.name, axis.x, axis.y))
     msg = axis.name + ":" +str(axis.x)
@@ -70,8 +76,8 @@ try:
         #controller.axis_r.when_moved = on_axis_moved
         
         # Left and right Triggers
-        controller.trigger_l.when_moved = on_trigger_pressed
-        controller.trigger_r.when_moved = on_trigger_pressed
+        controller.trigger_l.when_moved = on_trigger_l_pressed
+        controller.trigger_r.when_moved = on_trigger_r_pressed
         
         print("Before Pause")
         #This prevents any subsequent code from being executed but also prevents the scope from dying. Allowing the thread created by the controller to function

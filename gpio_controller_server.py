@@ -37,69 +37,82 @@ _horn_status = 0
 #picam.start()
 
 def init_servos():
+    """
+    Servo positions are as follows:
+    Left Front: 0
+    Right Front: 4
+    Left Back: 8
+    Right Back: 12
+    """
     for i in [0,4,8,12]:
+        #Testing threw these as the best general working values for pulse width
         pca.continuous_servo[i].set_pulse_width_range(50 , 3100) #0.6 Maximum forward servo speed, 0.5 maximum backwards speed
         #pca.continuous_servo[i].set_pulse_width_range(0, 65535)
         
 def switch_horn_status():
+    """
+    TODO: PINOUT setup
+    This functinon switches the "horn" on and off
+    The horn is made using a simple buzzer
+    """
     global _horn_status
     match _horn_status:
         case 0:
             print("Horn Switched ON")
-            
             _horn_status = 1
         case 1:
             print("Horn Switched OFF")
-            #global _horn_status
             _horn_status = 0
             
 def switch_light_status():
+    """
+    TODO: PINOUT setup
+    This functinon switches the "light" on and off
+    The light is made using a set of LEDs
+    """
     global _light_status
     match _light_status:
         case 0:
             print("Lights Switched ON")
-            
             _light_status = 1
         case 1:
             print("Lights Switched OFF")
-            #global _light_status
             _light_status = 0
             
             
 def set_throttle(servo_port):
+    """
+    THIS FUNCTION IS UNUSED ATM
+    This function sets the throttle on a continuos rotation servo.
+    Servo must've been previously init'd
+    """
     throttle = _press_intensity * MAX_SERVO_THROTTLE
     pca.continuous_servo[servo_port].throttle = throttle
     
 def move_control():
-    #move = map(set_throttle, [0,4,8,12])
-    #list(move)
-    #print(*move)
-    for i in [0,4,8,12]:
-        throttle = _press_intensity * MAX_SERVO_THROTTLE
-        print("Throttle: " + str(throttle))
+    """
+    This function sets the throtle speed for all servos using a global variable
+    """
+    for i in [0,4,8,12]: #Moving forward/backwards requires all servos
+        #throttle = _press_intensity * MAX_SERVO_THROTTLE
+        #print("Throttle: " + str(throttle))
         pca.continuous_servo[i].throttle = _press_intensity * MAX_SERVO_THROTTLE
 
-def turn_right():#Check why this moves all servos and why they never stop entirely----------------------
-    #turn = map(set_throttle,[4,8])
-    #list(turn)
-    #print(*turn)
-    for i in [4,8]:
-        throttle = _press_intensity * MAX_SERVO_THROTTLE
-        print("Throttle: " + str(throttle))
+def turn_right():
+    for i in [4,8]: 
+        #throttle = _press_intensity * MAX_SERVO_THROTTLE
+        #print("Throttle: " + str(throttle))
         pca.continuous_servo[i].throttle = _press_intensity * MAX_SERVO_THROTTLE
     
 def turn_left():
-    #turn = map(set_throttle,[0,12])
-    #list(turn)
-    #print(*turn)
     for i in [0,12]:
-        throttle = _press_intensity * MAX_SERVO_THROTTLE
-        print("Throttle: " + str(throttle))
+        #throttle = _press_intensity * MAX_SERVO_THROTTLE
+        #print("Throttle: " + str(throttle))
         pca.continuous_servo[i].throttle = _press_intensity * MAX_SERVO_THROTTLE
 
 def turn_control():
     global _press_intensity
-    if _press_intensity < 0.35:
+    if _press_intensity < -0.35: #0.35 is the sensibility
         turn_left()
     elif _press_intensity > 0.35:
         turn_right()
