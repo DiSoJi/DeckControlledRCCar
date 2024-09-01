@@ -1,0 +1,10 @@
+RaspBerry PI 5: aparta : wlan0: flags=4163<UP,BROADCAST,RUNNING,MULTICAST>  mtu 1500
+        inet 192.168.100.97  netmask 255.255.255.0  broadcast 192.168.100.255
+        inet6 fe80::ed79:ecda:3437:7e0d  prefixlen 64  scopeid 0x20<link>
+        ether 2c:cf:67:4f:13:be  txqueuelen 1000  (Ethernet)
+        RX packets 143201  bytes 186556913 (177.9 MiB)
+        RX errors 0  dropped 0  overruns 0  frame 0
+        TX packets 50528  bytes 4750176 (4.5 MiB)
+        TX errors 0  dropped 0 overruns 0  carrier 0  collisions 0
+
+
