@@ -24,7 +24,6 @@ def start_stop_camera():
 
 def on_button_pressed(button):
     print('Button {0} was pressed'.format(button.name))
-    
     msg = button.name + "p"+":0"
     client.send(msg.encode("utf-8")[:1024])
 
@@ -67,7 +66,7 @@ try:
         controller.button_trigger_r.when_released = on_button_released
         
         # Left and right axis move event
-        #controller.axis_l.when_moved = on_axis_moved
+        controller.axis_l.when_moved = on_axis_moved
         #controller.axis_r.when_moved = on_axis_moved
         
         # Left and right Triggers
@@ -75,19 +74,11 @@ try:
         controller.trigger_r.when_moved = on_trigger_pressed
         
         print("Before Pause")
-        #This prevents any subsequent code to be executed but akso prevents the scope from dying. Allowing the thread created by the controller to function
+        #This prevents any subsequent code from being executed but also prevents the scope from dying. Allowing the thread created by the controller to function
         signal.pause()
         
         #print("After pause")
 
 except KeyboardInterrupt:
     pass
-
-print("Before loop")
-
-#while True:
-#    print("While Loop")
-    #time.sleep(1)
-
-#client.close()
     
